@@ -1,0 +1,70 @@
+var currPage = "#selectionInfo";
+
+function changePage(newPage){
+	$(currPage).hide();
+	currPage = newPage;
+	$(currPage).show();
+}
+
+function updateBillingAddress(disabled){
+	$("#paymentAddress input").each(function(index, element) {
+		$(this).prop("disabled",disabled);
+		if(disabled){
+			$(this).val($("#" + $(this).attr("id").replace("payment","personal")).val());
+		}else{
+			$(this).val("");	
+		}
+	});
+}
+
+function init(){
+	$("#selectionInfo").hide();
+	$("#personalInfo").hide();
+	$("#paymentInfo").hide();
+	$("confirmationInfo").hide();
+	changePage("#selectionInfo");
+	
+	$("#samePaymentAddress").prop("checked",false);
+	updateBillingAddress(false);
+	
+	$("#paymentType").val("mc");
+}
+
+$(function(){
+	init();
+	
+	$(".datepicker").datepicker();
+	
+	$("#progress li").on("click", function(event){
+		changePage("#" + $(this).attr("id").replace("Progress","Info"));
+	});
+	
+	$("#samePaymentAddress").on("change", function(event){
+		updateBillingAddress($(this).prop("checked"));
+	});
+	
+	$("#paymentType").on("change", function(event){
+		if($(this).val() == "c"){
+			$("#cardInfo").hide("slow");
+		}else{
+			$("#cardInfo").show("slow");
+		}
+	});
+	
+	$("#selectionInfo").children().on("change", function(event){
+		//console.log(event.target);
+		var inDate, outDate;
+		if($(event.target).attr("id").match("selectionCheck(In|Out)Date")){
+			if((inDate = $("#selectionCheckInDate").val()) != ""){
+				if((outDate = $("#selectionCheckOutDate").val()) != ""){
+					var time = (new Date(outDate) - new Date(inDate))/(1000*60*60*24);
+					if(time > 0){
+						$("#summaryNightsStaying").val(time);
+					}
+				}
+			}
+		}else{
+			$("#" + $(event.target).attr("id").replace("selection","summary")).val($(event.target).val());
+		}
+	});
+});
