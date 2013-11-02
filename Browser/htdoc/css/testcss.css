@@ -8,6 +8,8 @@ body {
 	margin: 0 auto;
 	font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
 	background-color: #FFFFFF;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 #header {
