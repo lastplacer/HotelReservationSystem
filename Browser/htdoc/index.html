@@ -16,9 +16,10 @@
     <li id="selectionProgress"><a href="#">Selection</a></li>
     <li id="personalProgress"><a href="#">Personal Info</a></li>
     <li id="paymentProgress"><a href="#">Payment</a></li>
-    <li id="confirmProgress"><a href="#">Confirmation</a></li>
+    <li id="confirmationProgress"><a href="#">Confirmation</a></li>
   </ul>
 </div>
+<div id="confirmation">
 <div id="summary">
   <h3>Reservation Summary</h3>
   <label for="summaryRoomType">Room Type:</label>
@@ -137,6 +138,19 @@
     </div>
   </form>
 </div>
-<div id="confirmationInfo"> </div>
+<div id="confirmationInfo"> 
+	<h2>Booking Confirmation</h2>
+	<label for="confirmationRoomType">Room Type:</label>
+	<output name="confirmationType" id="confirmationRoomType"></output>
+	<br>
+	<label for="confirmationNightsStaying">Nights Staying:</label>
+	<output name="confirmationNightsStaying" id="confirmationNightsStaying"></output>
+	<br>
+	<label for="confirmationGuestCount">Number of Guests:</label>
+	<output name="confirmationGuestCount" id="confirmationGuestCount"></output>
+	<br>
+	<label for="confirmationBeds">Number of Beds:</label>
+	<output name="confirmationBeds" id="confirmationBeds"></output>
+</div>
 </body>
 </html>
