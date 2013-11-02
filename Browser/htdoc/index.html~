@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+<title>My Page</title>
+<script src="js/jquery-2.0.3.js"></script>
+<script src="js/jquery-ui-1.10.3.custom.js"></script>
+<script src="js/script.js"></script>
+<link href="css/testcss.css" rel="stylesheet" type="text/css">
+<link href="css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+</head>
+<body>
+<div id="container">
+<div id="header"> <!--<img src="header_img.png"/>--> </div>
+<div id="progress">
+  <ul>
+    <li id="selectionProgress"><a href="#">Selection</a></li>
+    <li id="personalProgress"><a href="#">Personal Info</a></li>
+    <li id="paymentProgress"><a href="#">Payment</a></li>
+    <li id="confirmationProgress"><a href="#">Confirmation</a></li>
+  </ul>
+</div>
+<div id="summary">
+  <h3>Reservation Summary</h3>
+  <label for="summaryRoomType">Room Type:</label>
+  <output name="summaryRoomType" id="summaryRoomType"></output>
+  <br>
+  <label for="summaryNightsStaying">Nights Staying:</label>
+  <output name="summaryNightsStaying" id="summaryNightsStaying"></output>
+  <br>
+  <label for="summaryGuestCount">Number of Guests:</label>
+  <output name="summaryGuestCount" id="summaryGuestCount"></output>
+  <br>
+  <label for="summaryBeds">Number of Beds:</label>
+  <output name="summaryBeds" id="summaryBeds"></output>
+</div>
+
+<div id="selectionInfo">
+  <h2>Room Information</h2>
+  <form id="selectionForm" method="POST">
+    <label for="selectionCheckInDate">Check in date</label>
+    <input name="selectionCheckInDate" type="text" id="selectionCheckInDate" class="datepicker">
+    <br>
+    <label for="selectionCheckOutDate">Check out date</label>
+    <input name="selectionCheckOutDate" type="text" id="selectionCheckOutDate" class="datepicker">
+    <br>
+    <label for="selectionGuestCount">Number of guests</label>
+    <select name="selectionGuestCount" id="selectionGuestCount" >
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5+">5+</option>
+    </select>
+    <br>
+    <label for="selectionRoomType">Room type</label>
+    <select name="selectionRoomType" id="selectionRoomType" >
+      <option value="Standard">Standard</option>
+      <option value="Suite">Suite</option>
+    </select>
+    <br>
+    <label for="selectionBeds">Beds</label>
+    <select name="selectionBeds" id="selectionBeds" >
+      <option value="1 King">1 King</option>
+      <option value="2 Queens">2 Queens</option>
+    </select>
+  </form>
+</div>
+<div id="personalInfo">
+  <h2>Personal Information</h2>
+  <form id="personalForm" method="POST">
+    <div id="personalAddress">
+      <label for="personalFirstName">First Name</label>
+      <input type="text" name="personalFirstName" id="personalFirstName">
+      <br>
+      <label for="personalLastName">Last Name</label>
+      <input type="text" name="personalLastName" id="personalLastName">
+      <br>
+      <label for="personalStreet">Address</label>
+      <input type="text" name="personalStreet" id="personalStreet">
+      <br>
+      <label for="personalCity">City</label>
+      <input type="text" name="personalCity" id="personalCity">
+      <br>
+      <label for="personalProvince">Province/State</label>
+      <input type="text" name="personalProvince" id="personalProvince">
+      <br>
+      <label for="personalCountry">Country</label>
+      <input type="text" name="personalCountry" id="personalCountry">
+      <br>
+      <label for="personalPostalCode">Postal Code</label>
+      <input type="text" name="personalPostalCode" id="personalPostalCode">
+    </div>
+    <label for="phone">Phone Number</label>
+    <input type="text" name="phone" id="phone">
+  </form>
+</div>
+<div id="paymentInfo">
+  <h2>Billing Information</h2>
+  <form id="paymentForm" method="POST">
+    <label for="samePaymentAddress">Billing address same as personal address</label>
+    <input type="checkbox" name="samePaymentAddress" id="samePaymentAddress">
+    <br>
+    <div id="paymentAddress">
+      <label for="paymentFirstName">First Name</label>
+      <input type="text" name="paymentFirstName" id="paymentFirstName">
+      <br>
+      <label for="paymentLastName">Last Name</label>
+      <input type="text" name="paymentLastName" id="paymentLastName">
+      <br>
+      <label for="paymentStreet">Address</label>
+      <input type="text" name="paymentStreet" id="paymentStreet">
+      <br>
+      <label for="paymentCity">City</label>
+      <input type="text" name="paymentCity" id="paymentCity">
+      <br>
+      <label for="paymentProvince">Province/State</label>
+      <input type="text" name="paymentProvince" id="paymentProvince">
+      <br>
+      <label for="paymentCountry">Country</label>
+      <input type="text" name="paymentCountry" id="paymentCountry">
+      <br>
+      <label for="paymentPostalCode">Postal Code</label>
+      <input type="text" name="paymentPostalCode" id="paymentPostalCode">
+    </div>
+    <br>
+    <label for="paymentType">Payment Type</label>
+    <select id="paymentType" name="paymentType">
+      <option value="mc">MasterCard</option>
+      <option value="v">Visa</option>
+      <option value="c">Cash</option>
+    </select>
+    <div id="cardInfo">
+      <label for="cardNumber">Card Number</label>
+      <input type="text" name="cardNumber" id="cardNumber">
+      <label for="securityCode">Security Code</label>
+      <input type="text" name="securityCode" id="securityCode">
+    </div>
+  </form>
+</div>
+</body>
+</html>
