@@ -33,16 +33,19 @@
   <br>
   <label for="summaryBeds">Number of Beds:</label>
   <output name="summaryBeds" id="summaryBeds"></output>
+  <br>
+  <label for="summaryLakeview">Lakeview:</label>
+  <output name="summaryLakeview" id="summaryLakeview"></output>
 </div>
 
 <div id="selectionInfo">
   <h2>Room Information</h2>
   <form id="selectionForm" method="POST">
     <label for="selectionCheckInDate">Check in date</label>
-    <input name="selectionCheckInDate" type="text" id="selectionCheckInDate" class="datepicker">
+    <input name="selectionCheckInDate" type="text" class="datepicker" id="selectionCheckInDate" readonly>
     <br>
     <label for="selectionCheckOutDate">Check out date</label>
-    <input name="selectionCheckOutDate" type="text" id="selectionCheckOutDate" class="datepicker">
+    <input name="selectionCheckOutDate" type="text" class="datepicker" id="selectionCheckOutDate" readonly>
     <br>
     <label for="selectionGuestCount">Number of guests</label>
     <select name="selectionGuestCount" id="selectionGuestCount" >
@@ -55,15 +58,20 @@
     <br>
     <label for="selectionRoomType">Room type</label>
     <select name="selectionRoomType" id="selectionRoomType" >
-      <option value="Standard">Standard</option>
-      <option value="Suite">Suite</option>
+      <option value=0>Standard</option>
+      <option value=1>Suite</option>
     </select>
     <br>
     <label for="selectionBeds">Beds</label>
     <select name="selectionBeds" id="selectionBeds" >
-      <option value="1 King">1 King</option>
-      <option value="2 Queens">2 Queens</option>
+      <option value=1>1 King</option>
+      <option value=2>2 Queens</option>
     </select>
+    <br>
+    <label for="selectionLakeview">Lakeview</label>
+    <input name="selectionLakeview" type="checkbox" id="selectionLakeview">
+    <br>
+    <input id = "availBtn" type="button" value="Check Availability">
   </form>
 </div>
 <div id="personalInfo">
@@ -151,6 +159,9 @@
 	<br>
 	<label for="confirmationBeds">Number of Beds:</label>
 	<output name="confirmationBeds" id="confirmationBeds"></output>
+     <br>
+  <label for="confirmationLakeview">Lakeview:</label>
+  <output name="confirmationLakeview" id="confirmationLakeview"></output>
 </div>
 </body>
 </html>
