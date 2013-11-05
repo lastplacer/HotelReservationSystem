@@ -49,7 +49,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `hotelSystem`.`reservation` ;
 
 CREATE TABLE IF NOT EXISTS `hotelSystem`.`reservation` (
-  `reservationID` INT NOT NULL,
+  `reservationID` INT NOT NULL AUTO_INCREMENT,
   `dateCreated` DATE NULL,
   `dateFor` DATE NOT NULL,
   `customerID` INT NOT NULL,
@@ -105,12 +105,13 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `hotelSystem`.`roomReservation` ;
 
 CREATE TABLE IF NOT EXISTS `hotelSystem`.`roomReservation` (
+  `roomReservationID` INT NOT NULL AUTO_INCREMENT,
   `reservationID` INT NOT NULL,
   `checkOutDate` DATE NOT NULL,
   `roomID` INT NOT NULL,
-  PRIMARY KEY (`reservationID`),
+  PRIMARY KEY (`roomReservationID`),
   INDEX `roomReservationRoomID_idx` (`roomID` ASC),
-  CONSTRAINT `roomReservationID`
+  CONSTRAINT `reservationID`
     FOREIGN KEY (`reservationID`)
     REFERENCES `hotelSystem`.`reservation` (`reservationID`)
     ON DELETE RESTRICT
