@@ -7,13 +7,6 @@
 	$isSuite = $_POST["isSuite"];
 	$roomNum = -1;
 	
-	echo $checkInDate . "\n";
-	echo $checkOutDate . "\n";
-	echo $numGuests . "\n";
-	echo $numBeds . "\n";
-	echo $isLakeview . "\n";
-	echo $isSuite . "\n";
-	
 	if($checkInDate >= $checkOutDate){
 		echo "failed";
 	}else{
@@ -22,16 +15,15 @@
 			echo "Connection failed: " . mysqli_connect_error() . "\n";
 			exit();
 		}
-		//if($stmt = $mysqli->prepare('SELECT roomID FROM room WHERE isLakeview = ? AND isSuite = ? AND numBeds = ? and locked = 0;')){
 		if($stmt = $mysqli->prepare('SELECT roomID 
 										FROM room 
-										WHERE roomID NOT EXISTS (
+										WHERE roomID NOT IN (
 											SELECT roomreservation.roomID 
-											FROM roomresetvation
+											FROM roomreservation
 											INNER JOIN reservation
 											ON reservation.reservationID = roomreservation.reservationID
 											WHERE DATEDIFF(?,dateFor) >= 0
-											AND DATEDIFF(?,checkOutDate) <= 0
+											AND DATEDIFF(?,checkOutDate) < 0
 										)
 										AND isLakeview = ?
 										AND isSuite = ?
@@ -44,11 +36,12 @@
 			
 			$stmt->bind_result($roomNum);
 			
-			while($stmt->fetch()){
-				echo $roomNum . "\n";
-			}
+			$stmt->fetch();
+			
 			$stmt->close();
 		}
 		$mysqli->close();
+
 	}
+	echo $roomNum;
 ?>

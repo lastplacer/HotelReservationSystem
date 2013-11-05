@@ -1,14 +1,20 @@
 var currPage = "#selectionInfo";
 var roomNum = -1;
-window.onbeforeunload = onExit;
 
-function onExit(){
-	if(roomNum > 0){
-		$.post("php/unlockRoom",
-			roomNum,
-			function(data, status){
-				
-			});
+window.onbeforeunload = function(e) {
+	unlockRoom(roomNum);
+    return null;
+}
+
+function lockRoom(roomNumber){
+	if(roomNumber > 0){
+		$.post("php/lockUnlockRoom.php",{roomNum: roomNumber,locked: 1});
+	}
+}
+
+function unlockRoom(roomNumber){
+	if(roomNumber > 0){
+		$.post("php/lockUnlockRoom.php",{roomNum: roomNumber,locked: 0});
 	}
 }
 
@@ -78,6 +84,7 @@ $(function(){
 	});
 	
 	$("#availBtn").on("click", function(event){
+		unlockRoom(roomNum);
 		var inDate = $("#selectionCheckInDate").val();
 		inDate = $.datepicker.parseDate("mm/dd/yy",inDate);
 		inDate = $.datepicker.formatDate("yy-mm-dd",inDate);
@@ -93,7 +100,11 @@ $(function(){
 			isSuite: $("#selectionRoomType").val()
 		},
 		function(data, status){
-			
+			if(status == "success"){
+				roomNum = data;
+				console.log(roomNum);
+				lockRoom(roomNum);
+			}
 		});
 	});
 	
