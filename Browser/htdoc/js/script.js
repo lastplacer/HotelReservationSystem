@@ -1,6 +1,7 @@
 var currPage = "#selectionInfo";
 var roomNum = -1;
 var timeout;
+var checking = false;
 
 window.onbeforeunload = function(e) {
 	unlockRoom(roomNum);
@@ -17,11 +18,11 @@ function unlockRoom(roomNumber){
 	if(roomNumber > 0){
 		$.ajax({
 			type: "POST",
-			url: "php/loclUnlockRoom.php",
+			url: "php/lockUnlockRoom.php",
 			data: {
 				roomNum: roomNumber,
 				locked: 0
-			}
+			},
 			async: false
 		});
 	}
@@ -106,12 +107,13 @@ function checkAvailability(){
 			isSuite: $("#selectionRoomType").val()
 		},
 		success: function(data, status){
-			if(status == "success"){
-				roomNum = data;
-				console.log(roomNum);
-				lockRoom(roomNum);
-			}else{
+			roomNum = data;
+			console.log(roomNum);
+			lockRoom(roomNum);
+			if(data == -1){
 				alert("No rooms available matching given criteria!");
+			}else if(checking == true){
+				alert("Room available matching given criteria!");
 			}
 		},
 		async: false
@@ -119,16 +121,24 @@ function checkAvailability(){
 }
 
 function createReservation(){
+	var inDate = $("#selectionCheckInDate").val();
+	inDate = $.datepicker.parseDate("mm/dd/yy",inDate);
+	inDate = $.datepicker.formatDate("yy-mm-dd",inDate);
+	var outDate = $("#selectionCheckOutDate").val();
+	outDate = $.datepicker.parseDate("mm/dd/yy",outDate);
+	outDate = $.datepicker.formatDate("yy-mm-dd",outDate);
+	
 	function createUser(){
 		return $.post("php/createUser.php",{
-			firstName:
-			lastName:
-			address:
-			city:
-			province:
-			country:
-			phone:
-			userType:
+			firstName: $("#personalFirstName").val(),
+			lastName: $("#personalLastName").val(),
+			address: $("#personalStreet").val(),
+			city: $("#personalCity").val(),
+			province: $("#personalProvince").val(),
+			country: $("#personalCountry").val(),
+			postalCode: $("#personalPostalCode").val(),
+			phone: $("#personalPhone").val(),
+			userType: "c"
 		});
 	}
 	function createCustomer(userID){
@@ -139,24 +149,30 @@ function createReservation(){
 	
 	function createReservation(customerID){
 		return $.post("php/createReservation.php",{
-			dateFor:
+			dateFor: inDate,
 			customerID: customerID,
-			reservationType:
+			reservationType: "r"
 		});
 	}
 	
 	function createRoomReservation(reservationID){
 		return $.post("php/createRoomReservation.php",{
 			reservationID: reservationID,
-			checkOutDate:
-			roomNum:
+			checkOutDate: outDate,
+			roomNum: roomNum
 		});
 	}
 	
 	$.when(createUser()).done(function(user){
 		$.when(createCustomer(user)).done(function(customer){
 			$.when(createReservation(customer)).done(function(reservation){
-				$.when(create
+				$.when(createRoomReservation(reservation)).done(function(data){
+					unlockRoom(roomNum);
+					roomNum = -1;
+					alert("Reservation successfully create from " + inDate + " until " + outDate);
+				});
+			});
+		});
 	});
 }
 
@@ -168,13 +184,14 @@ $(function(){
 	});
 	
 	$("#availBtn").on("click", function(event){
+		checking = true;
 		checkAvailability();
 	});
 	
 	$("#reserveBtn").on("click", function(event){
+		checking = false;
 		if(roomNum == -1){
 			checkAvailability();
-			timeout = setTimeout(
 		}
 		if(roomNum != -1){
 			createReservation();

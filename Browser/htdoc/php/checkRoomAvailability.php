@@ -10,7 +10,7 @@
 	if($checkInDate >= $checkOutDate){
 		echo "failed";
 	}else{
-		$mysqli = new mysqli('localhost','site','p455w0rd','hotelSystem');
+		$mysqli = new mysqli('localhost','site','p455w0rd','hotelsystem');
 		if(mysqli_connect_errno()){
 			echo "Connection failed: " . mysqli_connect_error() . "\n";
 			exit();
@@ -34,10 +34,16 @@
 			
 			$stmt->execute();
 			
+			$stmt->store_result();
+			
 			$stmt->bind_result($roomNum);
 			
-			$stmt->fetch();
-			
+			if($stmt->num_rows > 0){
+				$stmt->fetch();
+			}else{
+				$roomNum = -1;
+			}
+						
 			$stmt->close();
 		}
 		$mysqli->close();

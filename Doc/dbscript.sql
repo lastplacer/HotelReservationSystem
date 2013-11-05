@@ -2,16 +2,15 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-DROP SCHEMA IF EXISTS `hotelSystem` ;
-CREATE SCHEMA IF NOT EXISTS `hotelSystem` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-USE `hotelSystem` ;
+CREATE SCHEMA IF NOT EXISTS `hotelsystem` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `hotelsystem` ;
 
 -- -----------------------------------------------------
--- Table `hotelSystem`.`user`
+-- Table `hotelsystem`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `hotelSystem`.`user` ;
+DROP TABLE IF EXISTS `hotelsystem`.`user` ;
 
-CREATE TABLE IF NOT EXISTS `hotelSystem`.`user` (
+CREATE TABLE IF NOT EXISTS `hotelsystem`.`user` (
   `userID` INT NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(45) NOT NULL,
   `lastName` VARCHAR(45) NULL,
@@ -19,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `hotelSystem`.`user` (
   `city` VARCHAR(45) NULL,
   `province` VARCHAR(45) NULL,
   `country` VARCHAR(45) NULL,
+  `postalCode` VARCHAR(45) NULL,
   `phone` VARCHAR(45) NULL,
   `userType` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`userID`))
@@ -26,29 +26,29 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `hotelSystem`.`customer`
+-- Table `hotelsystem`.`customer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `hotelSystem`.`customer` ;
+DROP TABLE IF EXISTS `hotelsystem`.`customer` ;
 
-CREATE TABLE IF NOT EXISTS `hotelSystem`.`customer` (
+CREATE TABLE IF NOT EXISTS `hotelsystem`.`customer` (
   `customerID` INT NOT NULL AUTO_INCREMENT,
   `userID` INT NOT NULL,
   PRIMARY KEY (`customerID`),
   INDEX `customerUserID_idx` (`userID` ASC),
   CONSTRAINT `customerUserID`
     FOREIGN KEY (`userID`)
-    REFERENCES `hotelSystem`.`user` (`userID`)
+    REFERENCES `hotelsystem`.`user` (`userID`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `hotelSystem`.`reservation`
+-- Table `hotelsystem`.`reservation`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `hotelSystem`.`reservation` ;
+DROP TABLE IF EXISTS `hotelsystem`.`reservation` ;
 
-CREATE TABLE IF NOT EXISTS `hotelSystem`.`reservation` (
+CREATE TABLE IF NOT EXISTS `hotelsystem`.`reservation` (
   `reservationID` INT NOT NULL AUTO_INCREMENT,
   `dateCreated` DATE NULL,
   `dateFor` DATE NOT NULL,
@@ -58,18 +58,18 @@ CREATE TABLE IF NOT EXISTS `hotelSystem`.`reservation` (
   INDEX `reservationCustomerID_idx` (`customerID` ASC),
   CONSTRAINT `reservationCustomerID`
     FOREIGN KEY (`customerID`)
-    REFERENCES `hotelSystem`.`customer` (`customerID`)
+    REFERENCES `hotelsystem`.`customer` (`customerID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `hotelSystem`.`staff`
+-- Table `hotelsystem`.`staff`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `hotelSystem`.`staff` ;
+DROP TABLE IF EXISTS `hotelsystem`.`staff` ;
 
-CREATE TABLE IF NOT EXISTS `hotelSystem`.`staff` (
+CREATE TABLE IF NOT EXISTS `hotelsystem`.`staff` (
   `employeeID` INT NOT NULL AUTO_INCREMENT,
   `userID` INT NOT NULL,
   `hireDate` DATE NULL,
@@ -78,18 +78,18 @@ CREATE TABLE IF NOT EXISTS `hotelSystem`.`staff` (
   INDEX `staffUserID_idx` (`userID` ASC),
   CONSTRAINT `staffUserID`
     FOREIGN KEY (`userID`)
-    REFERENCES `hotelSystem`.`user` (`userID`)
+    REFERENCES `hotelsystem`.`user` (`userID`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `hotelSystem`.`room`
+-- Table `hotelsystem`.`room`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `hotelSystem`.`room` ;
+DROP TABLE IF EXISTS `hotelsystem`.`room` ;
 
-CREATE TABLE IF NOT EXISTS `hotelSystem`.`room` (
+CREATE TABLE IF NOT EXISTS `hotelsystem`.`room` (
   `roomID` INT NOT NULL,
   `isLakeview` BIT NOT NULL DEFAULT 0,
   `isSuite` BIT NOT NULL DEFAULT 0,
@@ -100,11 +100,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `hotelSystem`.`roomReservation`
+-- Table `hotelsystem`.`roomReservation`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `hotelSystem`.`roomReservation` ;
+DROP TABLE IF EXISTS `hotelsystem`.`roomReservation` ;
 
-CREATE TABLE IF NOT EXISTS `hotelSystem`.`roomReservation` (
+CREATE TABLE IF NOT EXISTS `hotelsystem`.`roomReservation` (
   `roomReservationID` INT NOT NULL AUTO_INCREMENT,
   `reservationID` INT NOT NULL,
   `checkOutDate` DATE NOT NULL,
@@ -113,12 +113,12 @@ CREATE TABLE IF NOT EXISTS `hotelSystem`.`roomReservation` (
   INDEX `roomReservationRoomID_idx` (`roomID` ASC),
   CONSTRAINT `reservationID`
     FOREIGN KEY (`reservationID`)
-    REFERENCES `hotelSystem`.`reservation` (`reservationID`)
+    REFERENCES `hotelsystem`.`reservation` (`reservationID`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `roomReservationRoomID`
     FOREIGN KEY (`roomID`)
-    REFERENCES `hotelSystem`.`room` (`roomID`)
+    REFERENCES `hotelsystem`.`room` (`roomID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

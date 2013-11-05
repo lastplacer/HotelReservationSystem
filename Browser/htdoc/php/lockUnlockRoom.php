@@ -12,4 +12,6 @@
 		$stmt->bind_param('ii',$locked,$roomNum);
 		$stmt->execute();
 	}
+	$stmt->close();
+	$mysqli->close();
 ?>
