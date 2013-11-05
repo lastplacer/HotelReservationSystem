@@ -1,5 +1,6 @@
 var currPage = "#selectionInfo";
 var roomNum = -1;
+var timeout;
 
 window.onbeforeunload = function(e) {
 	unlockRoom(roomNum);
@@ -14,7 +15,15 @@ function lockRoom(roomNumber){
 
 function unlockRoom(roomNumber){
 	if(roomNumber > 0){
-		$.post("php/lockUnlockRoom.php",{roomNum: roomNumber,locked: 0});
+		$.ajax({
+			type: "POST",
+			url: "php/loclUnlockRoom.php",
+			data: {
+				roomNum: roomNumber,
+				locked: 0
+			}
+			async: false
+		});
 	}
 }
 
@@ -76,6 +85,81 @@ function init(){
 	updateSummaryAndConfirmation($("#selectionLakeview"));
 }
 
+function checkAvailability(){
+	unlockRoom(roomNum);
+	var inDate = $("#selectionCheckInDate").val();
+	inDate = $.datepicker.parseDate("mm/dd/yy",inDate);
+	inDate = $.datepicker.formatDate("yy-mm-dd",inDate);
+	var outDate = $("#selectionCheckOutDate").val();
+	outDate = $.datepicker.parseDate("mm/dd/yy",outDate);
+	outDate = $.datepicker.formatDate("yy-mm-dd",outDate);
+	
+	$.ajax({
+		type:"POST",
+		url:"php/checkRoomAvailability.php",
+		data: {
+			checkInDate: inDate,
+			checkOutDate: outDate,
+			numGuests: $("#selectionGuestCount").val(),
+			numBeds: $("#selectionBeds").val(),
+			isLakeview: $("#selectionLakeview").prop("checked") ? 1:0,
+			isSuite: $("#selectionRoomType").val()
+		},
+		success: function(data, status){
+			if(status == "success"){
+				roomNum = data;
+				console.log(roomNum);
+				lockRoom(roomNum);
+			}else{
+				alert("No rooms available matching given criteria!");
+			}
+		},
+		async: false
+	});
+}
+
+function createReservation(){
+	function createUser(){
+		return $.post("php/createUser.php",{
+			firstName:
+			lastName:
+			address:
+			city:
+			province:
+			country:
+			phone:
+			userType:
+		});
+	}
+	function createCustomer(userID){
+		return $.post("php/createCustomer.php",{
+			userID: userID
+		});
+	}
+	
+	function createReservation(customerID){
+		return $.post("php/createReservation.php",{
+			dateFor:
+			customerID: customerID,
+			reservationType:
+		});
+	}
+	
+	function createRoomReservation(reservationID){
+		return $.post("php/createRoomReservation.php",{
+			reservationID: reservationID,
+			checkOutDate:
+			roomNum:
+		});
+	}
+	
+	$.when(createUser()).done(function(user){
+		$.when(createCustomer(user)).done(function(customer){
+			$.when(createReservation(customer)).done(function(reservation){
+				$.when(create
+	});
+}
+
 $(function(){
 	init();
 	
@@ -84,28 +168,17 @@ $(function(){
 	});
 	
 	$("#availBtn").on("click", function(event){
-		unlockRoom(roomNum);
-		var inDate = $("#selectionCheckInDate").val();
-		inDate = $.datepicker.parseDate("mm/dd/yy",inDate);
-		inDate = $.datepicker.formatDate("yy-mm-dd",inDate);
-		var outDate = $("#selectionCheckOutDate").val();
-		outDate = $.datepicker.parseDate("mm/dd/yy",outDate);
-		outDate = $.datepicker.formatDate("yy-mm-dd",outDate);
-		$.post("php/checkRoomAvailability.php",{
-			checkInDate: inDate,
-			checkOutDate: outDate,
-			numGuests: $("#selectionGuestCount").val(),
-			numBeds: $("#selectionBeds").val(),
-			isLakeview: $("#selectionLakeview").prop("checked") ? 1:0,
-			isSuite: $("#selectionRoomType").val()
-		},
-		function(data, status){
-			if(status == "success"){
-				roomNum = data;
-				console.log(roomNum);
-				lockRoom(roomNum);
-			}
-		});
+		checkAvailability();
+	});
+	
+	$("#reserveBtn").on("click", function(event){
+		if(roomNum == -1){
+			checkAvailability();
+			timeout = setTimeout(
+		}
+		if(roomNum != -1){
+			createReservation();
+		}
 	});
 	
 	$("#samePaymentAddress").on("change", function(event){
