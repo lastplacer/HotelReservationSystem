@@ -55,6 +55,7 @@ function setDefaultValues(){
 	});
 	var myDate = new Date();
 	$("#selectionCheckInDate").datepicker("setDate", myDate);
+	$("#selectionCheckInDate").datepicker("option", "minDate", 0);
 	$("#selectionCheckOutDate").datepicker("option","minDate",1);
 	$("#selectionCheckOutDate").datepicker("setDate", 1);
 	
