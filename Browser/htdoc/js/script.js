@@ -34,6 +34,26 @@ function changePage(newPage){
 	$(currPage).show();
 }
 
+function nextPage(){
+	if(currPage == "#selectionInfo"){
+ 		changePage("#personalInfo");
+	}else if(currPage == "#personalInfo"){
+		changePage("#paymentInfo");
+	}else if(currPage == "#paymentInfo"){
+ 		changePage("#confirmationInfo");
+	}
+}
+
+function backPage(){
+	if(currPage == "#confirmationInfo"){
+		changePage("#paymentInfo");
+	}else if(currPage == "#paymentInfo"){
+		changePage("#personalInfo");
+	}else if(currPage == "#personalInfo"){
+		changePage("#selectionInfo");
+	}
+}
+
 function updateBillingAddress(disabled){
 	$("#paymentAddress input").each(function(index, element) {
 		$(this).prop("disabled",disabled);
@@ -187,6 +207,14 @@ $(function(){
 	$("#availBtn").on("click", function(event){
 		checking = true;
 		checkAvailability();
+	});
+	
+	$(".nextBtn").on("click", function(event){
+		nextPage();
+	});
+	
+	$(".backBtn").on("click", function(event){
+		backPage();
 	});
 	
 	$("#reserveBtn").on("click", function(event){
