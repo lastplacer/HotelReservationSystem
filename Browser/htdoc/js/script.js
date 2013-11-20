@@ -136,6 +136,7 @@ function checkAvailability(){
 			}else if(checking == true){
 				alert("Room available matching given criteria!");
 			}
+			$("#availBtn").attr("disabled",false);
 		},
 		async: false
 	});
@@ -160,6 +161,8 @@ function createReservation(){
 			postalCode: $("#personalPostalCode").val(),
 			phone: $("#personalPhone").val(),
 			userType: "c"
+		}).done(function(data){
+			&("#reserveBtn").attr("disabled",false);
 		});
 	}
 	function createCustomer(userID){
@@ -205,6 +208,7 @@ $(function(){
 	});
 	
 	$("#availBtn").on("click", function(event){
+		$("#availBtn").attr("disabled",true);
 		checking = true;
 		checkAvailability();
 	});
@@ -218,6 +222,7 @@ $(function(){
 	});
 	
 	$("#reserveBtn").on("click", function(event){
+		$("#reserveBtn").attr("disabled",true);
 		checking = false;
 		if(roomNum == -1){
 			checkAvailability();
