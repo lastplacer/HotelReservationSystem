@@ -1,0 +1,29 @@
+Functional Requirements:
+	-Allows the guests to:
+		-Input necessities for a room reservation
+			-Date, bed(s), lakeview, suite...
+		-Check room availability for a given date and with given amenities
+		-Create a reservation for a specified room
+		-Select a package deal from a list of given options
+		-Reserve a table at the restaurant at a specified date and time
+		-Reserve a volleyball court at a specified date and time
+		-Add themselves to a waitlist
+		-Create an account to associate reservations with
+		-View their own existing and previous reservations
+		-Cancel their own existing reservations
+	-Allows the staff to:
+		-View all upcoming reseservations in the system
+		-Search through existing reservations by room number, guest name, guest id
+		-Create new reservations
+		-Modify specified existing reservations
+		-Delete specified existing reservations
+	-The system should:
+		-Check for an available room when requested by the user
+		-Put a temporary lock on a room when a user checks for its availability
+		-Unlocks a locked room if the reservation is not finalized in time
+Quality Requirements:
+	-At least 100 users should be able to use the system at the same time
+	-Must be simple enough for a customer to use right away
+	-Response time should be less than 5 seconds
+	-The system is available over 99% of the time
+	-With a failure, the system can be recovered withing 20 minutes and loss of new no more than 5 minutes before crash

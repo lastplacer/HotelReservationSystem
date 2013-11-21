@@ -1,0 +1,61 @@
+Check room availability:
+Pre: User has filled in room specifications
+Steps:
+1u. Click "check availability" button
+2s. Disable button
+3s. Perform query to check for an available room
+4s. If room(s) available, lock the first room matching the criteria
+5s. Notify user of outcome
+6s. Enable button
+
+1u. Click "check availability" button
+2s. If room matching criteria found:
+		Notify user that a room is available and is locked for them
+	Else:
+		Notify user that no rooms matching the criteria are available
+
+Post: If room matching criteria is available, the room is locked for the user and they are notified that a room is available for them. Else, the user is informed that no rooms matching the criteria are available.
+
+Reserve Room Already Locked No Account:
+Pre: User has entered all required information and has a room locked for them. User does not have an account
+Steps:
+1u. Click the "reserve room" button
+2s. Disable button
+3s. Perform queries to create a new customer entry
+4s. Perform queries to create a new reservation
+5s. Unlock the room
+6s. Notify user that the room has been reserved for them
+7s. Enable button
+
+1u. Click the "reserve room" button
+2s. If successfully book:
+		Notify user that the room has been reserved for them
+	Else:
+		Notify user that the room could not be reserved
+
+Post: Room is unlocked and a reservation for the room has been created for the new customer
+
+Reserve Room Not Locked No Account:
+Pre: User has entered all required information but does not have a room locked for them. User does not have an account.
+Steps:
+1u. Click the "reserve room" button
+2s. Disable button
+3s. Check for an available room matching criteria
+4s. If room available, lock room for user.
+5s. Perform queries to create a new customer entry
+6s. Perform queries to create a new reservation
+7s. Unlock the room
+8s. Notify user that the room has been reserved for them
+9s. Enable button
+
+1u. Click the "reserve room" button
+2s. If room matching criteria is available:
+		If successfuly booked:
+			Notify user that a room has been reserved for them
+		Else:
+			Notify user that the room could not be reserved
+	Else:
+		Notify user that no rooms matching the criteria are available
+
+Post: A reservation has been created for the new customer
+

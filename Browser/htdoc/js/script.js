@@ -15,6 +15,8 @@ function lockRoom(roomNumber){
 }
 
 function unlockRoom(roomNumber){
+	console.log("derp");
+	console.log(roomNumber);
 	if(roomNumber > 0){
 		$.ajax({
 			type: "POST",
@@ -151,20 +153,24 @@ function createReservation(){
 	outDate = $.datepicker.formatDate("yy-mm-dd",outDate);
 	
 	function createUser(){
-		return $.post("php/createUser.php",{
-			firstName: $("#personalFirstName").val(),
-			lastName: $("#personalLastName").val(),
-			address: $("#personalStreet").val(),
-			city: $("#personalCity").val(),
-			province: $("#personalProvince").val(),
-			country: $("#personalCountry").val(),
-			postalCode: $("#personalPostalCode").val(),
-			phone: $("#personalPhone").val(),
-			userType: "c"
-		}).done(function(data){
-			&("#reserveBtn").attr("disabled",false);
+		return $.ajax({
+			type: "POST",
+			url: "php/createUser.php",
+			data: {
+				firstName: $("#personalFirstName").val(),
+				lastName: $("#personalLastName").val(),
+				address: $("#personalStreet").val(),
+				city: $("#personalCity").val(),
+				province: $("#personalProvince").val(),
+				country: $("#personalCountry").val(),
+				postalCode: $("#personalPostalCode").val(),
+				phone: $("#personalPhone").val(),
+				userType: "c"
+			}
 		});
 	}
+	
+	
 	function createCustomer(userID){
 		return $.post("php/createCustomer.php",{
 			userID: userID
@@ -180,10 +186,17 @@ function createReservation(){
 	}
 	
 	function createRoomReservation(reservationID){
-		return $.post("php/createRoomReservation.php",{
-			reservationID: reservationID,
-			checkOutDate: outDate,
-			roomNum: roomNum
+		return $.ajax({
+			type: "POST",
+			url: "php/createRoomReservation.php",
+			data: {
+				reservationID: reservationID,
+				checkOutDate: outDate,
+				roomNum: roomNum
+			},
+			success: function(){
+				$("#reserveBtn").attr("disabled", false);
+			}
 		});
 	}
 	
